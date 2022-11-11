@@ -70,7 +70,7 @@ class OneStreamExtractor(Batch_Extractor):
         return  oracledb.connect(user=user, password=userpwd,host=server, port=port, service_name=db)
 
     def get_data(self,connection,select,from,where,limit):
-        '''***Gli  Input non stati sanitizzati ***'''
+        '''***Gli  Input non sono stati sanitizzati ***'''
         if(limit == None):
             query= "SELECT "+select+" FROM "+from+" WHERE "+ where
         else:
@@ -79,6 +79,7 @@ class OneStreamExtractor(Batch_Extractor):
         return results
         pass
     def write_data(self,connection,data,where):
+        '''***Gli  Input non sono stati sanitizzati ***'''
         cur = connection.cursor()
         '''Spachettamento dei dati in stringa'''
         stringOfColumns = ",".join([str(i[0]) for i in data.description])
