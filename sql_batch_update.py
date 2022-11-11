@@ -23,9 +23,14 @@ class Batch_Extractor(Batch_Extractor):
     Il seguente metodo prende in input i valori per comporre una query:
         - select: le colonne da estrarre dalla query
         - from: la table da cui estrarre
-        - where: i filtri per la 
-        - limit
+        - where: i filtri per la query
+        - limit: il numero di row da estrarre, settato a None di default
     come output i risultati della query
+    Si è deciso di non dare libertà all'utente che chiama il metodo,
+    di poter eseguire le query che vuole genericamente,
+    ma solo query con clausole select.
+    Per quanto riguarda le join si è deciso di non dare questa libertà all'utente 
+    per non complicare i parametri di input e l'implementazione della classe astratta stessa.
     '''
     @abstractmethod
     def get_data(self,connection,select,from,where,limit = None):
