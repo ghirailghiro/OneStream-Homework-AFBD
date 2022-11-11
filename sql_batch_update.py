@@ -7,7 +7,7 @@ import os
 import oracledb
 
 '''La classe astratta è definita con tre metodi:
-- Uno da utilizzare per la instaurare la connessione con la fonte dati SQL
+- Uno da utilizzare per instaurare la connessione con la fonte dati SQL
 - Uno per estrarre i dati da una fonte dati SQL
 - Uno per andare a scrivere dati su una fonte SQL
 '''
@@ -40,7 +40,7 @@ class Batch_Extractor(Batch_Extractor):
     '''
     Il seguente metodo prende in input i valori per comporre una query:
         - connection: il connettore al db SQL
-        - data: i dati che vogliamo scrivere, si è deciso di dare abbastanza libertà poi nello sviluppo della classe
+        - data: rappresenta i dati che vogliamo scrivere, si è deciso di dare abbastanza libertà poi nello sviluppo della classe
         - from: il nome della table su cui inserire
     come output i risultati della query
     Si è deciso di non dare libertà all'utente che chiama il metodo,
