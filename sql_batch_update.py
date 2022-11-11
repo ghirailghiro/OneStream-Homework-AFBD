@@ -32,6 +32,7 @@ class Batch_Extractor(Batch_Extractor):
     ma solo query con clausole select.
     Per quanto riguarda le join si è deciso di non dare questa libertà all'utente 
     per non complicare i parametri di input e l'implementazione della classe astratta stessa.
+    ***Essendo che la composizione delle query sarà fatta con dei parametri inseriti dall'utente bisognerà occuparsi della sanitizzazione***
     '''
     @abstractmethod
     def get_data(self,connection,select,from,where,limit = None):
@@ -45,6 +46,7 @@ class Batch_Extractor(Batch_Extractor):
     Si è deciso di non dare libertà all'utente che chiama il metodo,
     di poter eseguire le query che vuole genericamente,
     ma solo query con clausole INSERT, dando solo la possibilità di specificare la table in cui salvare.
+    ***Essendo che la composizione delle query sarà fatta con dei parametri inseriti dall'utente bisognerà occuparsi della sanitizzazione***
     '''
     @abstractmethod
     def write_data(self,connection,data,from):
