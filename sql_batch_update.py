@@ -16,7 +16,7 @@ class Batch_Extractor(Batch_Extractor):
     def get_data(self,connection,query):
         pass
     @abstractmethod
-    def write_data(self,connection,data):
+    def write_data(self,connection,data,where):
         pass
 
 
@@ -30,10 +30,19 @@ class OneStreamExtractor(Batch_Extractor):
         return  oracledb.connect(user=user, password=userpwd,host=server, port=port, service_name=db)
 
     def get_data(self,connection,query):
-        connection.execute(query)
+        results = connection.execute(query)
         '''Cosa ritornare??'''
+        return results
         pass
-    def write_data(self,connection,data):
+    def write_data(self,connection,data,where):
+        cur = connection.cursor()
+        stringOfColumns = ",".join([str(i[0]) for i in data.description])
+        columnsToInsert = ",".join([":"+str(i) for i in range(1,len(data.description[0])+1)])
+        cur.executemany("insert into "+where+"("+stringOfColumns+") values ("+columnsToInsert+")", data, batcherrors = True)
+        listOfErrors = []
+        for error in cur.getbatcherrors():
+            listOfErrors.append("Error"+ error.message.rstrip()+ "at row offset"+ error.offset)
+        return (listOfErrors > 0,listOfErrors)
         '''Cosa usare per scrivere?'''
         '''Che tipo di data deve dare in input?'''
         pass
