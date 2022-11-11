@@ -14,7 +14,7 @@ import oracledb
 class Batch_Extractor(Batch_Extractor):
     '''
     Il seguente metodo non prende parametri in input,
-    ma come output un connettore al db
+    ma come output avrà un connettore al db
     '''
     @abstractmethod
     def get_connection(self):
@@ -53,6 +53,13 @@ class Batch_Extractor(Batch_Extractor):
         pass
 
 
+'''
+***L'implementazione non è stata completamente testata, è stata inserita come esempio*** 
+Qui si può trovare un esempio di possibile implementazione,
+si è usata la libreria oracledb per simulare una estrazione
+in un db oracle.
+'''
+
 class OneStreamExtractor(Batch_Extractor):
     def get_connection(self):
         server = os.environ.get('SERVER')
@@ -63,6 +70,7 @@ class OneStreamExtractor(Batch_Extractor):
         return  oracledb.connect(user=user, password=userpwd,host=server, port=port, service_name=db)
 
     def get_data(self,connection,select,from,where,limit):
+        '''***Gli  Input non stati sanitizzati ***'''
         if(limit == None):
             query= "SELECT "+select+" FROM "+from+" WHERE "+ where
         else:
@@ -72,6 +80,7 @@ class OneStreamExtractor(Batch_Extractor):
         pass
     def write_data(self,connection,data,where):
         cur = connection.cursor()
+        '''Spachettamento dei dati in stringa'''
         stringOfColumns = ",".join([str(i[0]) for i in data.description])
         columnsToInsert = ",".join([":"+str(i) for i in range(1,len(data.description[0])+1)])
         cur.executemany("insert into "+where+"("+stringOfColumns+") values ("+columnsToInsert+")", data, batcherrors = True)
