@@ -21,6 +21,7 @@ class Batch_Extractor(Batch_Extractor):
         pass
     '''
     Il seguente metodo prende in input i valori per comporre una query:
+        - connection: il connettore al db SQL
         - select: le colonne da estrarre dalla query
         - from: la table da cui estrarre
         - where: i filtri per la query
@@ -35,8 +36,18 @@ class Batch_Extractor(Batch_Extractor):
     @abstractmethod
     def get_data(self,connection,select,from,where,limit = None):
         pass
+    '''
+    Il seguente metodo prende in input i valori per comporre una query:
+        - connection: il connettore al db SQL
+        - data: i dati che vogliamo scrivere, si è deciso di dare abbastanza libertà poi nello sviluppo della classe
+        - from: il nome della table su cui inserire
+    come output i risultati della query
+    Si è deciso di non dare libertà all'utente che chiama il metodo,
+    di poter eseguire le query che vuole genericamente,
+    ma solo query con clausole INSERT, dando solo la possibilità di specificare la table in cui salvare.
+    '''
     @abstractmethod
-    def write_data(self,connection,data,where):
+    def write_data(self,connection,data,from):
         pass
 
 
